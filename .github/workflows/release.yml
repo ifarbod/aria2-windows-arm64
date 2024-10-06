@@ -2,8 +2,10 @@ name: Build for Windows ARM64
 
 on:
   push:
-    tags:
-    - '*'
+    branches:
+      - master
+    paths-ignore:
+      - "**.md"
 
 jobs:
   build-windows-arm64:
