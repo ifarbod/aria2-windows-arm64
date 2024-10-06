@@ -73,13 +73,14 @@ jobs:
           export CPPFLAGS="-I${{ github.workspace }}/vcpkg/installed/arm64-mingw-static-release/include"
           export LDFLAGS="-L${{ github.workspace }}/vcpkg/installed/arm64-mingw-static-release/lib"
           ./configure --host=aarch64-w64-mingw32  \
-            --without-libxml2 --with-libexpat
+            --enable-static --disable-shared --disable-nls --disable-bittorrent --disable-metalink --without-libxml2 --with-libexpat
           make -j$(nproc)
 
       - name: Prepare build artifacts
         run: |
           mkdir upload
           cp ${{ github.workspace }}/aria2-${{ env.aria2_version }}/src/aria2c.exe upload 
+          cp ${{ github.workspace }}/aria2-${{ env.aria2_version }}/config.h upload
           ${{ env.llvm_path }}/bin/aarch64-w64-mingw32-strip upload/aria2c.exe
           cd upload
           7z a aria2_${{ env.aria2_version }}_arm64.zip aria2c.exe
